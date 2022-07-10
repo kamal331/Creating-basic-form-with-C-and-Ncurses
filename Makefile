@@ -1,33 +1,3 @@
-# CC :=gcc
-# LDFLAGS :=-lncurses -lmenu -lform -lpanel
-# C_SOURCES :=$(wildcard *.c)
-# C_OBJS :=$(C_SOURCES:.c=.o)
-#
-# #
-# # all:$(C_EXECUTABLE) $(CPP_EXECUTABLE)
-# #
-# # $(C_EXECUTABLE):$(C_SOURCES)
-# # 	$(CC) $< $(LDFLAGS) $(CFLAGS) -o $@
-# #
-# # $(CPP_EXECUTABLE):$(CPP_SOURCES)
-# # 	$(CPP) $< $(LDFLAGS) $(CFLAGS) -o $@
-# #
-# # clean:
-# # 	rm -rf $(EXECUTABLE)
-#
-# TARGET = main
-# BUILD_DIR := build
-#
-# all:$(TARGET)
-#
-# $(BUILD_DIR)/%.o: %.c
-# 	mkdir -p $(dir $@)
-# 	$(CC) $(CFLAGS) -c $< -o $@
-#
-# $(TARGET):$(BUILD_DIR)/$(C_OBJS)
-# 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $(TARGET)
-#
-
 
 
 TARGET = main

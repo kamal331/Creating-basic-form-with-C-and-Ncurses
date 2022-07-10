@@ -18,9 +18,9 @@ https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_single/NCURSES-P
 
 char *menu_items_[] = {
     "Choice 1",
-    "Choice 2",
+    "About the program",
     "license",
-    "Choice 4",
+    "Privacy Policy",
     "Exit",
     (char *)NULL,
 };
@@ -29,7 +29,7 @@ void menu_()
 {
     clear();
     attron(COLOR_PAIR(CYAN));
-    mvprintw(LINES - 3, 2, "Use arrow keys to change the choice and press Enter to select!\n  Press ESC key to exit!");
+    mvprintw(LINES - 3, 2, "Use arrow keys to change the choice and press Enter to select!");
     refresh();
     attroff(COLOR_PAIR(CYAN));
     ITEM **items_;
@@ -78,8 +78,10 @@ void menu_()
     post_menu(menu_);
     wrefresh(menu_win);
 
+    int cur_item;
     while ((c = wgetch(menu_win)) != ESC_KEY)
     {
+        // c = wgetch(menu_win);
         switch (c)
         {
         case KEY_DOWN:
@@ -88,9 +90,9 @@ void menu_()
         case KEY_UP:
             menu_driver(menu_, REQ_UP_ITEM);
             break;
-        case 10: // Enter
+        case ENTER_KEY:
         {
-            int cur_item = item_index(current_item(menu_));
+            cur_item = item_index(current_item(menu_));
             switch (cur_item)
             {
             case 0:
@@ -100,106 +102,147 @@ void menu_()
                 // item 2
                 break;
             case 2:
-                // item 3
-                // license();
+                license(menu_win);
                 break;
             case 3:
-                // item 4
+                privacyPolicy(menu_win);
+                break;
+            case 4:
+                goto end;
                 break;
             }
         }
         }
         wrefresh(menu_win);
     }
-
-    unpost_menu(menu_);
-    free_menu(menu_);
+end:
     for (i = 0; i < n_choices; i++)
         free_item(items_[i]);
+    delwin(menu_win);
+    unpost_menu(menu_);
+    free_menu(menu_);
+    clear();
+    refresh();
 }
 
-void license()
+void license(WINDOW *menu_win)
 {
     clear();
     refresh();
     // free software license
-    char *text = "Some of the code is not written by me. I have learned it from:\n"
-                 "https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_single/NCURSES-Programming-HOWTO.html#COPYRIGHT\n"
-                 "Copyright © 2001 by Pradeep Padala.\n"
-                 "For the rest of the code, I have used the following licenses (Same as above):\n"
-                 "The MIT License (MIT)\n"
+    char *text[] = {
+        "Some of the code is not written by me. I have learned it from:\n",
+        "https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_\n",
+        "single/NCURSES-Programming-HOWTO.html#COPYRIGHT\n",
+        "Copyright © 2001 by Pradeep Padala.  (MIT License)\n",
+        "For the rest of the code, I have used the following licenses:\n",
+        "The MIT License (MIT)\n",
 
-                 "Copyright © 2022 <copyright holders>\n"
+        "Copyright © 2022 <copyright holders>\n",
 
-                 "Permission is hereby granted, free of charge, to any person obtaining a copy of\n"
-                 "this software and associated documentation files (the “Software”), to deal in the\n"
-                 "Software without restriction, including without limitation the rights to use, copy,\n"
-                 "modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,\n"
-                 "and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n"
+        "Permission is hereby granted, free of charge, to any person\n",
+        "obtaining a copy of this software and associated documentation\n",
+        "files (the \"Software\"), to deal in the Software without\n",
+        "restriction, including without limitation the rights to use, copy,\n",
+        "modify, merge, publish, distribute, sublicense, and/or sell copies\n",
+        "of the Software, and to permit persons to whom the Software is furnished\n",
+        "to do so, subject to the following conditions:\n",
 
-                 "The above copyright notice and this permission notice shall be included in all copies or\n"
-                 "substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY\n"
-                 "OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n"
-                 "MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL\n"
-                 "THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n"
-                 "WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\n"
-                 "WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n"
-                 "You can find the full license at: https://mit-license.org/\n";
+        "The above copyright notice and this permission notice shall be included\n",
+        "in all copies or, substantial portions of the Software. THE SOFTWARE IS\n",
+        "PROVIDED \"AS IS\", WITHOUT WARRANTY, OF ANY KIND, EXPRESS OR IMPLIED\n",
+        "INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\n"
+        "FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL\n",
+        "THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR\n",
+        "OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,\n",
+        "ARISING FROM, OUT OF OR IN CONNECTION , WITH THE SOFTWARE OR THE USE\n",
+        "OR OTHER DEALINGS IN THE SOFTWARE. You can find the full license at:\n",
+        "https://mit-license.org/\n",
+        (char *)NULL,
+    };
 
-    int height = strlen(text) + 6;
-    int width = strlen("https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_single/NCURSES-Programming-HOWTO.html#COPYRIGHT\n"); // MAAAAXXXXX
+    int height = ARRAY_SIZE(text) + 10;
+    int width = strlen("https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_") + 20; // MAAAAXXXXX
     int starty = (LINES - height) / 2;
     int startx = (COLS - width) / 2;
     WINDOW *win = newwin(height, width, starty, startx);
+    attron(COLOR_PAIR(YELLOW));
     box(win, 0, 0);
-    // print text in the window
-    mvwprintw(win, 1, 1, "%s", text);
+    attroff(COLOR_PAIR(YELLOW));
 
-    wattron(win, COLOR_PAIR(CYAN) | A_REVERSE);
-    mvwprintw(win, 1, 1, "%s", text);
-    wattroff(win, COLOR_PAIR(CYAN) | A_REVERSE);
+    wattron(win, COLOR_PAIR(CYAN));
+    // mvwprintw(win, 1, 1, "%s", text);
+    for (int i = 0; *(text + i); i++)
+    {
+        mvwprintw(win, i + 1, 5, "%s", *(text + i));
+    }
+
+    wattroff(win, COLOR_PAIR(CYAN));
     wrefresh(win);
 
     attron(COLOR_PAIR(CYAN) | A_REVERSE);
     mvprintw(LINES - 2, 0, "Press any key to continue");
     attroff(COLOR_PAIR(CYAN) | A_REVERSE);
-    getch();
-
-    delwin(win);
     refresh();
+    getch();
+    delwin(win);
+    clear();
+    /* LEARNED: Print a border around the main window and print a title */
+    box(menu_win, 0, 0);
+    print_in_middle(menu_win, 1, 0, width, "Menu", COLOR_PAIR(CYAN));
+    mvwaddch(menu_win, 2, 0, ACS_LTEE);            // border line in the top left corner
+    mvwhline(menu_win, 2, 1, ACS_HLINE, COLS - 5); // border line in the top
+    mvwaddch(menu_win, 2, width - 1, ACS_RTEE);    // border line in the top right corner
 
-    menu_();
+    // refresh();
+    refresh();
+    // menu_();
 }
 
-void privacyPolicy()
+void privacyPolicy(WINDOW *menu_win)
 {
     clear();
     refresh();
-    char *text = "No information is collected by me. Literally no infromation!\n"
-                 "No personal, no non-personal!";
-    // window cordinates and height and width
-    int height = strlen(text) + 6;
-    int width = strlen("No information is collected by me. Literally no infromation!\n"); // MAAAAXXXXX
+    char *text[] = {
+        "No information is collected by me. Literally no infromation!\n",
+        "No personal, no non-personal!",
+        (char *)NULL,
+    };
+    int height = ARRAY_SIZE(text) + 5;
+    int width = strlen("No information is collected by me. Literally no infromation!") + 20; // MAAAAXXXXX
     int starty = (LINES - height) / 2;
     int startx = (COLS - width) / 2;
     WINDOW *win = newwin(height, width, starty, startx);
+    attron(COLOR_PAIR(YELLOW));
     box(win, 0, 0);
-    // print text in the window
-    mvwprintw(win, 1, 1, "%s", text);
+    attroff(COLOR_PAIR(YELLOW));
 
-    wattron(win, COLOR_PAIR(CYAN) | A_REVERSE);
-    mvwprintw(win, 1, 1, "%s", text);
-    wattroff(win, COLOR_PAIR(CYAN) | A_REVERSE);
+    wattron(win, COLOR_PAIR(CYAN));
+    // mvwprintw(win, 1, 1, "%s", text);
+    for (int i = 0; *(text + i); i++)
+    {
+        mvwprintw(win, i + 1, 5, "%s", *(text + i));
+    }
+
+    wattroff(win, COLOR_PAIR(CYAN));
     wrefresh(win);
 
-    // COLORIZE THISSSSSS
+    attron(COLOR_PAIR(CYAN) | A_REVERSE);
     mvprintw(LINES - 2, 0, "Press any key to continue");
+    attroff(COLOR_PAIR(CYAN) | A_REVERSE);
+
+    refresh();
     getch();
 
     delwin(win);
+    clear();
+    /* LEARNED: Print a border around the main window and print a title */
+    box(menu_win, 0, 0);
+    print_in_middle(menu_win, 1, 0, width, "Menu", COLOR_PAIR(CYAN));
+    mvwaddch(menu_win, 2, 0, ACS_LTEE);            // border line in the top left corner
+    mvwhline(menu_win, 2, 1, ACS_HLINE, COLS - 5); // border line in the top
+    mvwaddch(menu_win, 2, width - 1, ACS_RTEE);    // border line in the top right corner
     refresh();
-
-    menu_();
 }
 
 void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color)

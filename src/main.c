@@ -48,7 +48,6 @@ int main()
     init_pair(RED, COLOR_RED, COLOR_BLACK);
     init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
     init_pair(BLACK, COLOR_BLACK, COLOR_BLACK);
-    getch();
 
     menu_();
 

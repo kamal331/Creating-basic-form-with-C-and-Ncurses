@@ -9,6 +9,7 @@ Copyright © 2001 by Pradeep Padala. */
 #define WHITE 6
 #define BLACK 7
 #define ESC_KEY 27
+#define ENTER_KEY 10
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 #define CTRLD 4
@@ -17,4 +18,5 @@ extern char *menu_items_[];
 
 void menu_();
 void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
-void license();
+void license(WINDOW *menu_win);
+void privacyPolicy(WINDOW *menu_win);
