@@ -17,8 +17,8 @@ https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_single/NCURSES-P
 #include <form_functions.h>
 
 char *menu_items_[] = {
-    "Choice 1",
-    "About the program",
+    "Nothing...",
+    "Nothing...",
     "license",
     "Privacy Policy",
     "Exit",
@@ -131,37 +131,37 @@ void license(WINDOW *menu_win)
     refresh();
     // free software license
     char *text[] = {
-        "Some of the code is not written by me. I have learned it from:\n",
-        "https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_\n",
-        "single/NCURSES-Programming-HOWTO.html#COPYRIGHT\n",
-        "Copyright © 2001 by Pradeep Padala.  (MIT License)\n",
-        "For the rest of the code, I have used the following licenses:\n",
-        "The MIT License (MIT)\n",
+        "Some of the code is not written by me. I have learned it from:",
+        "https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_",
+        "single/NCURSES-Programming-HOWTO.html#COPYRIGHT",
+        "Copyright © 2001 by Pradeep Padala.  (MIT License)",
+        "For the rest of the code, I have used the following licenses:",
+        "The MIT License (MIT)",
 
-        "Copyright © 2022 <copyright holders>\n",
+        "Copyright © 2022 <copyright holders>",
 
-        "Permission is hereby granted, free of charge, to any person\n",
-        "obtaining a copy of this software and associated documentation\n",
-        "files (the \"Software\"), to deal in the Software without\n",
-        "restriction, including without limitation the rights to use, copy,\n",
-        "modify, merge, publish, distribute, sublicense, and/or sell copies\n",
-        "of the Software, and to permit persons to whom the Software is furnished\n",
-        "to do so, subject to the following conditions:\n",
+        "Permission is hereby granted, free of charge, to any person",
+        "obtaining a copy of this software and associated documentation",
+        "files (the \"Software\"), to deal in the Software without",
+        "restriction, including without limitation the rights to use, copy,",
+        "modify, merge, publish, distribute, sublicense, and/or sell copies",
+        "of the Software, and to permit persons to whom the Software is furnished",
+        "to do so, subject to the following conditions:",
 
-        "The above copyright notice and this permission notice shall be included\n",
-        "in all copies or, substantial portions of the Software. THE SOFTWARE IS\n",
-        "PROVIDED \"AS IS\", WITHOUT WARRANTY, OF ANY KIND, EXPRESS OR IMPLIED\n",
-        "INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\n"
-        "FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL\n",
-        "THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR\n",
-        "OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,\n",
-        "ARISING FROM, OUT OF OR IN CONNECTION , WITH THE SOFTWARE OR THE USE\n",
-        "OR OTHER DEALINGS IN THE SOFTWARE. You can find the full license at:\n",
-        "https://mit-license.org/\n",
+        "The above copyright notice and this permission notice shall be included",
+        "in all copies or, substantial portions of the Software. THE SOFTWARE IS",
+        "PROVIDED \"AS IS\", WITHOUT WARRANTY, OF ANY KIND, EXPRESS OR IMPLIED",
+        "INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS",
+        "FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL",
+        "THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR",
+        "OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,",
+        "ARISING FROM, OUT OF OR IN CONNECTION , WITH THE SOFTWARE OR THE USE",
+        "OR OTHER DEALINGS IN THE SOFTWARE. You can find the full license at:",
+        "https://mit-license.org/",
         (char *)NULL,
     };
 
-    int height = ARRAY_SIZE(text) + 10;
+    int height = ARRAY_SIZE(text) + 5;
     int width = strlen("https://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_") + 20; // MAAAAXXXXX
     int starty = (LINES - height) / 2;
     int startx = (COLS - width) / 2;
@@ -204,7 +204,7 @@ void privacyPolicy(WINDOW *menu_win)
     clear();
     refresh();
     char *text[] = {
-        "No information is collected by me. Literally no infromation!\n",
+        "No information is collected by me. Literally no infromation!",
         "No personal, no non-personal!",
         (char *)NULL,
     };
